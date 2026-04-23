@@ -1,0 +1,415 @@
+{
+  "info": {
+    "name": "Housing-API - Full Test Collection",
+    "_postman_id": "housing-api-full-test",
+    "description": "Collection to test all API endpoints for the Housing-API project. Variables: {{base_url}}, {{auth_token}}.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"password123\",\n  \"role_name\": \"Student\",\n  \"full_name\": \"Test Student\",\n  \"university_name\": \"Test University\",\n  \"major\": \"CS\",\n  \"academic_level\": \"Undergraduate\",\n  \"phone_number\": \"0123456789\",\n  \"address\": \"Some Address\",\n  \"nationality\": \"Country\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/register"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201 || pm.response.code === 200) {",
+                  "  var json = pm.response.json();",
+                  "  if (json.access_token) { pm.environment.set('auth_token', json.access_token); }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/login"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  var json = pm.response.json();",
+                  "  if (json.access_token) { pm.environment.set('auth_token', json.access_token); }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/user"
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/logout"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Housings",
+      "item": [
+        {
+          "name": "List Housings",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/housing"
+            }
+          }
+        },
+        {
+          "name": "Create Housing",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Sample Housing",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Nice place",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "1000",
+                  "type": "text"
+                },
+                {
+                  "key": "address",
+                  "value": "123 Street",
+                  "type": "text"
+                },
+                {
+                  "key": "city",
+                  "value": "CityName",
+                  "type": "text"
+                },
+                {
+                  "key": "images[]",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/housing"
+            }
+          }
+        },
+        {
+          "name": "Get Housing (id)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/housing/1"
+            }
+          }
+        },
+        {
+          "name": "Update Housing (id)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Title\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/housing/1"
+            }
+          }
+        },
+        {
+          "name": "Delete Housing (id)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/housing/1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Booking Requests",
+      "item": [
+        {
+          "name": "List Booking Requests",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/booking-requests"
+            }
+          }
+        },
+        {
+          "name": "Create Booking Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"housing_id\": 1,\n  \"start_date\": \"2026-03-10\",\n  \"end_date\": \"2026-03-20\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/booking-requests"
+            }
+          }
+        },
+        {
+          "name": "Update Booking Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/booking-requests/1/status"
+            }
+          }
+        },
+        {
+          "name": "Cancel Booking",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/booking-requests/1/cancel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Interviews",
+      "item": [
+        {
+          "name": "List Interviews",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/interviews"
+            }
+          }
+        },
+        {
+          "name": "Create Interview",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"booking_request_id\": 1,\n  \"scheduled_at\": \"2026-03-15 10:00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/interviews"
+            }
+          }
+        },
+        {
+          "name": "Update Interview Result",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"result\": \"passed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/interviews/1/result"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Pending Owners",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/pending-owners"
+            }
+          }
+        },
+        {
+          "name": "Approve Owner",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/admin/approve-owner/1"
+            }
+          }
+        },
+        {
+          "name": "Pending Housings",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/pending-housings"
+            }
+          }
+        },
+        {
+          "name": "Approve Housing",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/admin/approve-housing/1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications & Ratings",
+      "item": [
+        {
+          "name": "List Notifications",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/notifications"
+            }
+          }
+        },
+        {
+          "name": "List Ratings",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/ratings"
+            }
+          }
+        },
+        {
+          "name": "Create Rating",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"housing_id\": 1,\n  \"rating\": 5,\n  \"comment\": \"Great place\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/ratings"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
