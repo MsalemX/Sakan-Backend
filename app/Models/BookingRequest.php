@@ -15,6 +15,8 @@ class BookingRequest extends Model
     protected $fillable = [
         'student_id',
         'housing_id',
+        'start_date',
+        'end_date',
         'status',
         'selected_services',
     ];

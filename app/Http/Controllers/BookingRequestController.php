@@ -93,6 +93,8 @@ class BookingRequestController extends Controller
         $bookingRequest = BookingRequest::create([
             'student_id' => $user->student->id,
             'housing_id' => $request->housing_id,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
             'status' => 'pending',
             'selected_services' => $request->selected_services,
         ]);

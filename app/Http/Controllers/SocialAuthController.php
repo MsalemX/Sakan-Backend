@@ -53,6 +53,7 @@ class SocialAuthController extends Controller
                 email:    $request->email,
                 googleId: $request->google_id,
                 avatar:   $request->avatar,
+                fcmToken: $request->fcm_token,
             );
 
             // --- الخطوة 3: إصدار Sanctum Token ---

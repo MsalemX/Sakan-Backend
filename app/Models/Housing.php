@@ -18,6 +18,8 @@ class Housing extends Model
     // `name` and the front‑end sends `name`, which is the public contract.
     protected $fillable = [
         'name',
+        'city',
+        'address',
         'housing_owner_id',
         'description',
         'conditions', // شروط السكن التي يدخلها المالك

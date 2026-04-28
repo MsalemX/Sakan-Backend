@@ -15,6 +15,8 @@ class HousingOwner extends Model
 
     protected $fillable = [
         'user_id',
+        'id_number',
+        'phone_number',
         'commercial_register',
         'is_approved',
     ];

@@ -40,6 +40,7 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role_id' => $role->id,
+                'fcm_token' => $request->fcm_token,
             ]);
 
             if ($role->name === 'Student') {
@@ -70,6 +71,8 @@ class AuthController extends Controller
 
                 HousingOwner::create([
                     'user_id' => $user->id,
+                    'id_number' => $request->id_number,
+                    'phone_number' => $request->phone_number,
                     'commercial_register' => $commercialRegisterPath,
                 ]);
 
@@ -128,6 +131,11 @@ class AuthController extends Controller
         }
 
         $user = User::where('email', $request->email)->firstOrFail();
+        
+        // تحديث توكن الإشعارات إذا تم إرساله
+        if ($request->has('fcm_token')) {
+            $user->update(['fcm_token' => $request->fcm_token]);
+        }
 
         // التحقق مما إذا كان المستخدم صاحب سكن وما إذا كان حسابه معتمداً من قبل الإدارة
         if ($user->role->name === 'Housing Owner') {
@@ -284,5 +292,23 @@ class AuthController extends Controller
 
             return response()->json(['message' => 'Failed to update profile', 'error' => $e->getMessage()], 500);
         }
+    }
+
+    /**
+     * تحديث توكن FCM للمستخدم بشكل مستقل.
+     */
+    public function updateFcmToken(Request $request)
+    {
+        $request->validate([
+            'fcm_token' => 'required|string',
+        ]);
+
+        $request->user()->update([
+            'fcm_token' => $request->fcm_token,
+        ]);
+
+        return response()->json([
+            'message' => 'FCM Token updated successfully',
+        ]);
     }
 }

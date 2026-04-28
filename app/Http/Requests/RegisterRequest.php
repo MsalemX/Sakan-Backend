@@ -26,11 +26,13 @@ class RegisterRequest extends FormRequest
             'university_card_image' => 'required_if:role_name,Student|image|mimes:jpeg,png,jpg,gif|max:2048',
             'academic_level' => 'required_if:role_name,Student|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'phone_number' => 'required_if:role_name,Student|string|max:255',
+            'phone_number' => 'required_if:role_name,Student,Housing Owner|string|max:255',
             'address' => 'required_if:role_name,Student|string|max:255',
             'nationality' => 'required_if:role_name,Student|string|max:255',
             'proof_of_enrollment' => 'required_if:role_name,Student|image|mimes:jpeg,png,jpg,gif|max:2048',
             'commercial_register' => 'required_if:role_name,Housing Owner|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'id_number' => 'required_if:role_name,Housing Owner|string|max:50',
+            'fcm_token' => 'nullable|string',
         ];
     }
 }

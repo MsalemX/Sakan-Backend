@@ -25,4 +25,21 @@ class Notification extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * إرسال إشعار FCM تلقائياً عند إنشاء إشعار في قاعدة البيانات.
+     */
+    protected static function booted()
+    {
+        static::created(function ($notification) {
+            $user = $notification->user;
+            if ($user && $user->fcm_token) {
+                \App\Services\FCMService::sendNotification(
+                    $user->fcm_token,
+                    $notification->title,
+                    $notification->message
+                );
+            }
+        });
+    }
 }

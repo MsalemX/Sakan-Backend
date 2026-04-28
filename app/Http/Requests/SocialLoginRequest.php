@@ -33,6 +33,7 @@ class SocialLoginRequest extends FormRequest
             'email'      => ['required', 'email', 'max:255'],
             'google_id'  => ['required', 'string'],
             'avatar'     => ['nullable', 'string'],   // رابط الصورة (قد يكون null)
+            'fcm_token'  => ['nullable', 'string'],
         ];
     }
 

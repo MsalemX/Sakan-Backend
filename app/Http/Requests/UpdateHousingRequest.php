@@ -15,6 +15,8 @@ class UpdateHousingRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|string',
+            'city' => 'sometimes|string',
+            'address' => 'sometimes|string',
             'description' => 'sometimes|string',
             'conditions' => 'sometimes|string',
             'base_price' => 'sometimes|numeric',

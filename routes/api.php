@@ -21,6 +21,7 @@ Route::post('/auth/google', [SocialAuthController::class, 'googleLogin']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
+    Route::post('/update-fcm-token', [AuthController::class, 'updateFcmToken']);
 
     Route::middleware(['student'])->group(function () {
         Route::get('/student/profile', [AuthController::class, 'studentProfile']);

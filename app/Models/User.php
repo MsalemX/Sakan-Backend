@@ -31,6 +31,7 @@ class User extends Authenticatable
         'google_id',  // معرّف المستخدم على Google
         'avatar',     // رابط صورة Google
         'provider',   // 'google' | null
+        'fcm_token',  // توكن الإشعارات
     ];
 
     /**

@@ -49,6 +49,8 @@ class HousingController extends Controller
 
         $housing = Housing::create([
             'name' => $validated['name'],
+            'city' => $validated['city'],
+            'address' => $validated['address'],
             'housing_owner_id' => $user->housingOwner->id,
             'description' => $validated['description'],
             'conditions' => $validated['conditions'],

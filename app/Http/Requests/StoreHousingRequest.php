@@ -15,6 +15,8 @@ class StoreHousingRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
+            'city' => 'required|string',
+            'address' => 'required|string',
             'description' => 'required|string',
             'conditions' => 'required|string',
             'base_price' => 'required|numeric',

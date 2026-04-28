@@ -15,6 +15,8 @@ class StoreBookingRequest extends FormRequest
     {
         return [
             'housing_id' => 'required|exists:housings,id',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
             'selected_services' => 'nullable|array',
             'selected_services.*' => 'integer|exists:services,id',
         ];

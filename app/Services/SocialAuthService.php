@@ -57,13 +57,15 @@ class SocialAuthService
      * @param  string      $email    بريده الإلكتروني
      * @param  string      $googleId معرّفه على Google
      * @param  string|null $avatar   رابط صورته الشخصية
+     * @param  string|null $fcmToken توكن الإشعارات
      * @return User
      */
     public function findOrCreateUser(
         string $name,
         string $email,
         string $googleId,
-        ?string $avatar = null
+        ?string $avatar = null,
+        ?string $fcmToken = null
     ): User {
         // --- المحاولة 1: البحث عبر google_id ---
         $user = User::where('google_id', $googleId)->first();
@@ -71,9 +73,10 @@ class SocialAuthService
         if ($user) {
             // تحديث الاسم والصورة في كل تسجيل دخول (قد يغيرها المستخدم على Google)
             $user->update([
-                'name'     => $name,
-                'avatar'   => $avatar,
-                'provider' => 'google',
+                'name'      => $name,
+                'avatar'    => $avatar,
+                'provider'  => 'google',
+                'fcm_token' => $fcmToken,
             ]);
             return $user;
         }
@@ -87,6 +90,7 @@ class SocialAuthService
                 'google_id' => $googleId,
                 'avatar'    => $user->avatar ?? $avatar, // لا نستبدل الصورة إن كانت موجودة
                 'provider'  => $user->provider ?? 'google',
+                'fcm_token' => $fcmToken,
             ]);
             return $user;
         }
@@ -101,6 +105,7 @@ class SocialAuthService
             'google_id' => $googleId,
             'avatar'    => $avatar,
             'provider'  => 'google',
+            'fcm_token' => $fcmToken,
             'password'  => null, // لا كلمة مرور لمستخدمي Google
             'role_id'   => $studentRole?->id,
         ]);
